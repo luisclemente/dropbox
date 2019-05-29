@@ -22,7 +22,7 @@ class CreatePlansTable extends Migration
          $table->string('plan_price');
          $table->string('plan_duration');
          $table->string('plan_type');
-         //stripe info
+         // Stripe info
          $table->string('name');
          $table->string('description');
          $table->string('btn_label');

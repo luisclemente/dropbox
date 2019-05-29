@@ -5,6 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * Post
+ *
+ * @mixin Eloquent
+ */
+
+
+/**
  * App\File
  *
  * @property-read \App\User $user
@@ -32,7 +39,7 @@ use Illuminate\Database\Eloquent\Model;
 class File extends Model
 {
    //
-   protected $fillable = [ 'name', 'type', 'extension', 'user_id', ];
+   protected $fillable = [ 'name', 'type', 'extension', 'user_id', 'folder'];
 
    public function user ()
    {

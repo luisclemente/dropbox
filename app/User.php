@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -45,14 +46,14 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable
 {
-   use Notifiable, HasRoles;
+   use Notifiable, HasRoles, Billable;
 
    /**
     * The attributes that are mass assignable.
     *
     * @var array
     */
-   protected $fillable = [ 'name', 'email', 'password' ];
+   protected $fillable = [ 'name', 'email', 'password', 'username' ];
 
    /**
     * The attributes that should be hidden for arrays.
@@ -67,7 +68,6 @@ class User extends Authenticatable
       return $this->hasMany ( File::class );
    }
 
-
    /**
     * The attributes that should be cast to native types.
     *
@@ -76,4 +76,23 @@ class User extends Authenticatable
    protected $casts = [
       'email_verified_at' => 'datetime',
    ];
+
+   public function getSuscriptionAttribute ()
+   {
+      $sub = Subscription::where ( 'user_id', $this->id )->first ();
+
+      if ( $sub )
+      {
+         switch ( $sub->stripe_plan )
+         {
+            case 'DrboxMonthly':
+               return 'Mensual';
+            case 'DrboxBianual':
+               return 'Semestral';
+            case 'DrboxAnnual':
+               return 'Anual';
+         }
+      }
+      return null;
+   }
 }

@@ -15,12 +15,12 @@ class PermissionsTableSeeder extends Seeder
     */
    public function run ()
    {
-    /*  Permission::create ( [ 'name' => 'file.create', 'description' => 'Subir archivos' ] );
+      Permission::create ( [ 'name' => 'file.create', 'description' => 'Subir archivos' ] );
       Permission::create ( [ 'name' => 'file.store', 'description' => 'Guardar archivos' ] );
       Permission::create ( [ 'name' => 'file.images', 'description' => 'Imagenes subidas' ] );
       Permission::create ( [ 'name' => 'file.videos', 'description' => 'Videos subidos' ] );
       Permission::create ( [ 'name' => 'file.audios', 'description' => 'Audios subidos' ] );
-      Permission::create ( [ 'name' => 'file.documents', 'description' => 'Documentos subidos' ] );*/
+      Permission::create ( [ 'name' => 'file.documents', 'description' => 'Documentos subidos' ] );
 
       Permission::create ( [ 'name' => 'role.index', 'description' => 'Ver todos los roles' ] );
       Permission::create ( [ 'name' => 'role.create', 'description' => 'Crear roles' ] );

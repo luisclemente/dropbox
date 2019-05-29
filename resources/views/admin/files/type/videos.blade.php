@@ -28,24 +28,26 @@
                                     <img src="{{ asset('img/files/avi.svg') }}" class="img-responsive" width="50">
                                 @endif
 
-
                             </th>
                             <th scope="row">{{ $video->name }}</th>
                             <th scope="row">{{ $video->created_at->DiffForHumans() }}</th>
                             <th scope="row">
                                 <a class="btn btn-primary" target="_blank"
                                    href="{{asset('storage')}}/{{ $folder }}/video/{{$video->name}}">
-                                    <i class="fas fa-eye"></i>Ver
+                                    <i class="fas fa-eye"></i>
+                                    Ver
                                 </a>
                             </th>
                             <th scope="row">
-                                <form action="{{ route('file.destroy', $video->id) }}" method="POST">
-                                    @csrf
-                                    @method ('PATCH')
-                                    <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i>
+                                    <button
+                                            class="btn btn-danger"
+                                            data-toggle="modal"
+                                            data-target="#deleteModal"
+                                            data-file-id="{{ $video->id }}"
+                                            type="submit">
+                                        <i class="fas fa-trash"></i>
                                         Eliminar
                                     </button>
-                                </form>
                             </th>
                         </tr>
                     </tbody>
@@ -53,7 +55,6 @@
                     @empty
                         <div class="container mb-5">
                             <div class="alert alert-warning" role="alert">
-                                    {{--role="<div class=" alert alert-{{ session('info')[0]}}"--}}
                                 <span class="closebtn" onclick="this.parentElement.style.display='none';">
                                     x
                                 </span>
@@ -65,4 +66,21 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    @include('admin.partials.modals.files')
+
+@endsection
+
+
+@section('internalscript')
+    <link rel="stylesheet" href="../css/admin.css">
+
+    <script src="../js/app.js"></script>
+@endsection
+
+@section('scripts')
+
+    @include('admin.partials.js.deleteModal')
+
 @endsection

@@ -14,7 +14,8 @@
                             data-target="#deleteModal"
                             data-file-id="{{ $audio->id }}"
                             type="submit">
-                        <i class="fas fa-trash"></i> Eliminar
+                        <i class="fas fa-trash"></i>
+                        Eliminar
                     </button>
                 </div>
             @empty

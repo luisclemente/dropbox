@@ -15,12 +15,21 @@ class UsersTableSeeder extends Seeder
       factory ( User::class, 1 )->create ( [
          'name'     => 'luis',
          'email'    => 'luis@mail.com',
+         'username' => 'luis',
          'password' => bcrypt ('.')
       ] );
 
       factory ( User::class, 1 )->create ( [
          'name'     => 'antonio',
          'email'    => 'antonio@mail.com',
+         'username' => 'antonio',
+         'password' => bcrypt ('.')
+      ] );
+
+      factory ( User::class, 1 )->create ( [
+         'name'     => 'luisico',
+         'email'    => 'luisclementevalero@gmail.com',
+         'username' => 'luisico',
          'password' => bcrypt ('.')
       ] );
    }

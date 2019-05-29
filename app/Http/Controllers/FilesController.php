@@ -20,9 +20,9 @@ class FilesController extends Controller
    {
       $this->middleware ( [
          'auth',
-        // 'role:Admin|Subscriptor',
-        // 'role:Admin',
-      ]);
+         // 'role:Admin|Subscriptor',
+         // 'role:Admin',
+      ] );
    }
 
    public function create ()
@@ -59,9 +59,19 @@ class FilesController extends Controller
 
    public function documents ()
    {
-      $documents = File::whereUserId ( auth ()->id () )->OrderBy ( 'id', 'desc' )->where ( 'type', '=', 'document' )->get ();
+      if ( Auth::check () && Auth::user ()->hasRole ( 'Admin' ) )
+      {
+         $documents = File::where ( 'type', '=', 'document' )
+            ->OrderBy ( 'id', 'desc' )
+            ->get ();
+      } else
+      {
+         $documents = File::whereUserId ( auth ()->id () )
+            ->OrderBy ( 'id', 'desc' )
+            ->where ( 'type', '=', 'document' )
+            ->get ();
+      }
 
-     // dd($documents);
       $folder = str_slug ( Auth::user ()->name . '-' . Auth::id () );
 
       return view ( 'admin.files.type.documents', compact ( 'documents', 'folder' ) );
@@ -75,23 +85,26 @@ class FilesController extends Controller
       $all_ext = implode ( ',', $this->allExtensions () );
 
       $request->validate ( [
-           'file' => 'required|file|mimes:' . $all_ext . '|max:' . $max_size
+         'file' => 'required|file|mimes:' . $all_ext . '|max:' . $max_size
       ] );
 
       $file = $request->file ( 'file' );
       $name = $file->getClientOriginalName (); // p.ej. "arbol.jpeg"
       $ext = $file->getClientOriginalExtension (); // p.ej. "jpeg"
       $type = $this->getType ( $ext );
+      $folder = $this->getUserFolder ();
 
-      if ( $type != null){
+      if ( $type != null )
+      {
          //      putFileAs ( ruta, archivo, nombre-del-archivo). Guarda un archivo en la ruta y con el nombre indicados.
          if ( Storage::putFileAs ( '/public/' . $this->getUserFolder () . '/' . $type . '/', $file, $name ) )
          {
-         //   $uploadFile::create ( [
+            //   $uploadFile::create ( [
             File::create ( [
                'name'      => $name,
                'type'      => $type,
                'extension' => $ext,
+               'folder'    => $folder,
                'user_id'   => Auth::id ()
             ] );
          }
@@ -102,13 +115,13 @@ class FilesController extends Controller
 
    }
 
-   public function destroy ( $id )
+   public function destroy ( Request $request )
    {
-      $file = File::findOrFail ( $id );
+      $file = File::findOrFail ( $request->file_id );
 
-      if ( Storage::disk ( 'local' )->exists ( '/public/' . $this->getUserFolder () . '/' . $file->type . '/' . $file->name  ) )
+      if ( Storage::disk ( 'local' )->exists ( '/public/' . $this->getUserFolder () . '/' . $file->type . '/' . $file->name ) )
       {
-         if ( Storage::disk ( 'local' )->delete ( '/public/' . $this->getUserFolder () . '/' . $file->type . '/' . $file->name  ) )
+         if ( Storage::disk ( 'local' )->delete ( '/public/' . $this->getUserFolder () . '/' . $file->type . '/' . $file->name ) )
          {
             try
             {

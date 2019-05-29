@@ -19,7 +19,8 @@ Route::view ( '/seguridad', 'secure' )->name ( 'secure' );*/
 
 
 //Ruta de Home
-Route::view ( '/', 'index' )->name ( 'home' );
+Route::get('/', 'SubscriptionController@index')->name('home');
+Route::post('/', 'SubscriptionController@store')->name('subscription.store');
 
 //Ruta dpagina de seguridad
 Route::view ( '/seguridad', 'secure' )->name ( 'secure' );
@@ -30,8 +31,9 @@ Auth::routes ();
 
 
 //admin
-Route::get ( '/home', 'HomeController@index' )->name ( 'dashboard' );
-//Route::get ( '/dashboard', 'HomeController@index' )->name ( 'dashboard' )->middleware ( [ 'role:ADMIN' ] );
+//Route::get ( '/home', 'HomeController@index' )->name ( 'dashboard' );
+//Route::get ( '/home', 'HomeController@index' )->name ( 'dashboard' )->middleware ( [ 'role:ADMIN' ] );
+Route::get ( '/dashboard', 'HomeController@index' )->name ( 'dashboard' )->middleware ( [ 'role:Admin' ] );
 
 //Files
 Route::get ( 'archivos/subir', 'FilesController@create' )->name ( 'file.create' );
@@ -40,7 +42,8 @@ Route::get ( 'archivos/imagenes', 'FilesController@images' )->name ( 'file.image
 Route::get ( 'archivos/videos', 'FilesController@videos' )->name ( 'file.videos' );
 Route::get ( 'archivos/musica', 'FilesController@audios' )->name ( 'file.audios' );
 Route::get ( 'archivos/documentos', 'FilesController@documents' )->name ( 'file.documents' );
-Route::patch ( 'archivos/eliminar/{id}', 'FilesController@destroy' )->name ( 'file.destroy' );
+//Route::patch ( 'archivos/eliminar/{id}', 'FilesController@destroy' )->name ( 'file.destroy' );
+Route::patch ( 'archivos/eliminar', 'FilesController@destroy' )->name ( 'file.destroy' );
 
 //Roles
 Route::group ( [ 'namespace' => 'Admin' ], function () {
@@ -80,15 +83,29 @@ Route::group ( [ 'namespace' => 'Admin' ], function () {
 
    //Plans
    Route::group ( [ 'prefix' => 'plan' ], function () {
-      Route::get ( '/', 'PlansController@index' )->name ( 'plan.index' );
-      Route::get ( '/agregar', 'PlansController@create' )->name ( 'plan.create' );
-      Route::patch ( '/agregar', 'PlansController@store' )->name ( 'plan.store' );
-      Route::get ( '/{id}/ver', 'PlansController@show' )->name ( 'plan.show' );
-      Route::get ( '/{id}/editar', 'PlansController@edit' )->name ( 'plan.edit' );
-      Route::patch ( '/{id}/editar', 'PlansController@update' )->name ( 'plan.update' );
-      Route::patch ( '/{id}/eliminar', 'PlansController@destroy' )->name ( 'plan.destroy' );
+      Route::get ( '/', 'PlansController@index' )->name ( 'plans.index' );
+      Route::get ( '/agregar', 'PlansController@create' )->name ( 'plans.create' );
+      Route::patch ( '/agregar', 'PlansController@store' )->name ( 'plans.store' );
+      Route::get ( '/{id}/ver', 'PlansController@show' )->name ( 'plans.show' );
+      Route::get ( '/{id}/editar', 'PlansController@edit' )->name ( 'plans.edit' );
+      Route::patch ( '/{id}/editar', 'PlansController@update' )->name ( 'plans.update' );
+      Route::patch ( '/{id}/eliminar', 'PlansController@destroy' )->name ( 'plans.destroy' );
    } );
 } );
+
+//Subscriptions
+Route::get ( 'mis-suscripciones', 'SubscriptionController@subscriptions' )->name ( 'subscription.index' );
+Route::get ( 'continuar', 'SubscriptionController@subscriptions' )->name ( 'subscription.resume' );
+Route::get ( 'cancelar', 'SubscriptionController@subscriptions' )->name ( 'subscription.cancel' );
+/*Route::group ( [ 'prefix' => 'plan' ], function () {
+   Route::get ( 'mis-suscripciones', 'SubscriptionController@plans' )->name ( 'plans.index' );
+   Route::get ( '/agregar', 'SubscriptionController@create' )->name ( 'plans.create' );
+   Route::patch ( '/agregar', 'SubscriptionController@store' )->name ( 'plans.store' );
+   Route::get ( '/{id}/ver', 'SubscriptionController@show' )->name ( 'plans.show' );
+   Route::get ( '/{id}/editar', 'SubscriptionController@edit' )->name ( 'plans.edit' );
+   Route::patch ( '/{id}/editar', 'SubscriptionController@update' )->name ( 'plans.update' );
+   Route::patch ( '/{id}/eliminar', 'SubscriptionController@destroy' )->name ( 'plans.destroy' );
+} );*/
 
 
 

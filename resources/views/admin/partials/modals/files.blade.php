@@ -10,12 +10,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('file.destroy', 'file') }}" method="POST">
+                <form action="{{ route('file.destroy') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="_method" value="PATCH">
+                    @method('PATCH')
                     <div class="modal-body">
                         <p>Los archivos que elimine no se podrán recuperar</p>
-                        <input type="hidden" name="file_id" id="file_id">
+                        <input type="hidden" name="file_id" id="file_id" value="">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">

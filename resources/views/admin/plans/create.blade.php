@@ -6,7 +6,7 @@
 
     <form action="{{ route('plans.store') }}" method="POST" class="was-validated">
         @csrf
-        <input type="hidden" name="_method" value="PATCH">
+        @method('PATCH')
         <div class="form-row">
             <div class="col-sm-6 mb-3">
                 <label for="PlanName">Nombre del plan</label>
@@ -65,7 +65,10 @@
             </div>
         </div>
 
-        <button class="btn btn-outline-success" type="submit"><i class="fas fa-plus-circle"></i> Agregar</button>
+        <button class="btn btn-outline-success" type="submit">
+            <i class="fas fa-plus-circle"></i>
+            Agregar
+        </button>
     </form>
     
 @endsection
