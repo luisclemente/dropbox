@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('page', 'Mis suscripciones')
+@section('page', 'Mis facturas')
 
 @section('content')
 
@@ -11,29 +11,32 @@
                     <thead>
                     <tr>
 
-                        <th scope="col">Nombre</th>
-                        <th scope="col">ID Stripe</th>
-                        <th scope="col">Creada</th>
-                        <th scope="col">Finalizará</th>
-                        <th scope="col">Acciones</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Monto</th>
+                        <th scope="col">Facturación</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Moneda</th>
+                        <th scope="col">Soporte</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($subscriptions as $subscription)
+                    @foreach($invoices as $invoice)
                         <tr>
-                            <th scope="row">{{$subscription->name}}</th>
-                            <th scope="row">{{ $subscription->stripe_id }}</th>
-                            <th scope="row">{{ $subscription->created_at->DiffForHumans() }}</th>
+                            <th scope="row">{{$invoice->id}}</th>
+                            <th scope="row">{{ $invoice->total}}</th>
+                            <th scope="row">Automática</th>
+                            <th scope="row">{{ date('d-m-Y', $invoice->created)}}</th>
+                            <th scope="row">{{ $invoice->currency }}</th>
                             <th scope="row">
-                                {{ $subscription->ends_at
-                                ? $subscription->ends_at->DiffForHumans()
-                                : 'La suscripción está activa'}}
+                                <a href="{{ $invoice->hosted_invoice_url }}" class="btn btn-success" target="_blank">
+                                    Ver
+                                </a>
                             </th>
-                            <th scope="row">
-                                @if ($subscription->ends_at)
+                           {{-- <th scope="row">
+                                @if ($invoice->ends_at)
                                     <form action="{{ route('subscription.resume') }}" method="POST">
                                         @csrf
-                                        <input type="hidden" name="plan_name" value="{{ $subscription->name }}">
+                                        <input type="hidden" name="plan_name" value="{{ $invoice->name }}">
                                         <button class="btn btn-success" type="submit">
                                             <i class="fas fa-trash"></i>
                                             Subscribirme
@@ -42,13 +45,13 @@
                                 @else
                                     <form action="{{ route('subscription.cancel') }}" method="POST">
                                         @csrf
-                                        <input type="hidden" name="plan_name" value="{{ $subscription->name }}">
+                                        <input type="hidden" name="plan_name" value="{{ $invoice->name }}">
                                         <button class="btn btn-danger" type="submit">
                                             Cancelar
                                         </button>
                                     </form>
                                 @endif
-                            </th>
+                            </th>--}}
                         </tr>
                     </tbody>
                     @endforeach

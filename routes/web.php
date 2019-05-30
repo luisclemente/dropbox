@@ -95,8 +95,11 @@ Route::group ( [ 'namespace' => 'Admin' ], function () {
 
 //Subscriptions
 Route::get ( 'mis-suscripciones', 'SubscriptionController@subscriptions' )->name ( 'subscription.index' );
-Route::get ( 'continuar', 'SubscriptionController@subscriptions' )->name ( 'subscription.resume' );
-Route::get ( 'cancelar', 'SubscriptionController@subscriptions' )->name ( 'subscription.cancel' );
+Route::post ( 'continuar', 'SubscriptionController@resume' )->name ( 'subscription.resume' );
+Route::post   ( 'cancelar', 'SubscriptionController@cancel' )->name ( 'subscription.cancel' );
+
+Route::get   ( 'mis-facturas', 'InvoicesController@invoices' )->name ( 'invoices.index' );
+Route::get   ( 'mis-facturas/{invoice}', 'InvoicesController@showInvoice' )->name ( 'invoices.show' );
 /*Route::group ( [ 'prefix' => 'plan' ], function () {
    Route::get ( 'mis-suscripciones', 'SubscriptionController@plans' )->name ( 'plans.index' );
    Route::get ( '/agregar', 'SubscriptionController@create' )->name ( 'plans.create' );

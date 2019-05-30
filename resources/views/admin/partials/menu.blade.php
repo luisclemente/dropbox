@@ -50,6 +50,12 @@
             Suscripciones
         </a>
     </li>
+    <li>
+        <a href="{{ route('invoices.index') }}">
+            <i class="fas fa-chart-line"></i>
+            Facturas
+        </a>
+    </li>
 @endif
 
 @if(Auth()->user()->hasRole('Admin'))
